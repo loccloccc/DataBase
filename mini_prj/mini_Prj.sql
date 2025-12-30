@@ -31,7 +31,7 @@ create table Enrollment(
     primary key(id_stu ,id_coures ),
     foreign key(id_stu) references Student(id_stu),
     foreign key(id_coures) references Coures(id_coures),
-    date_enrollment date
+    date_enrollment date not null 
 );
 -- ket qua hoc tap 
 create table Score(

@@ -15,8 +15,6 @@ select *
 from view_user_activity_2;
 -- 5)Viết một truy vấn kết hợp view_user_activity với bảng users để hiển thị danh sách người dùng (bao gồm full_name, total_posts, total_friends), chỉ bao gồm người dùng có total_posts > 0 (số bài viết lớn hơn 0), sắp xếp theo total_posts giảm dần (từ cao đến thấp).
 
-
-
 select u.full_name, v.total_posts,v.total_friends,
     case
         when v.total_friends > 5 then 'Nhiều bạn bè'

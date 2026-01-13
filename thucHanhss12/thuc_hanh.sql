@@ -112,28 +112,23 @@ limit 1;
 -- b) Gọi thủ tục trên để tìm sinh viên có điểm cao nhất môn Database Systems (C00001).
 
 delimiter //
-create procedure GetTopScoreStudent(p_CourseID char(6))
-begin 
-	select s.FullName , max(e.Score) from Enrollment e
+create procedure GetTopScoreStudent( p_CourseID char(6))
+begin
+    select s.FullName, e.Score
+    from Enrollment e
     join Student s on s.StudentID = e.StudentID
     where e.CourseID = p_CourseID
-    group by s.FullName
-    having max(e.Score);
+      and e.Score = (
+            select MAX(Score)
+            from Enrollment
+            where CourseID = p_CourseID
+      );
 end //
 delimiter ;
 
 call GetTopScoreStudent("C00001");
 
--- bai 6
--- tao va hien thi view
-create or replace view View_IT_Enrollment_DB as 
-select *from Student s
-join Course c on c.CourseID = s.CourseID
-join Enrollment e on e.StudentID =  s.StudentID
-where s.DeptID = "IT" and e.CourseID = "C00001"
-WITH CHECK OPTION;
 
-select View_IT_Enrollment_DB;
 
 
 

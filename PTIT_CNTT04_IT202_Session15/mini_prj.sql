@@ -125,11 +125,13 @@ delimiter ;
 
 delimiter ..
 create procedure sp_PayTuition(sp_StudentID char(5), sp_TotalDebt decimal(10,2))
+begin
 start transaction ;
 update Students set TotalDebt = TotalDebt - sp_TotalDebt where StudentID  = sp_StudentID ;
 if (select TotalDebt from Students where StudentID  = sp_StudentID) < 0 then rollback;
 else commit;
 end if;
+end ..
 delimiter ;
 call sp_PayTuition('SV01',2000000);
 
@@ -144,6 +146,8 @@ delimiter ..
 create trigger tg_PreventPassUpdate 
 before update on Grades
 for each row
-if old.Score >= 4.0 then signal sqlstate set message_text = "loi";
+begin
+if old.Score >= 4.0 then signal  sqlstate '45000' set message_text = "loi";
 end if;
+end ..
 delimiter ;
